@@ -1,18 +1,17 @@
 class Solution {
 public:
-    int sum = 0 ;
-    void reverseInorder(TreeNode* root){
-        if(root == NULL ) return;
-
-        reverseInorder(root->right);
-        root->val += sum;
-        sum = root->val;
-        reverseInorder(root->left);
-
-
+    TreeNode* helper(vector<int>& arr, int lo, int hi) {
+        if (lo > hi) return nullptr;
+        int mid = lo + (hi - lo) / 2;
+        TreeNode* root = new TreeNode(arr[mid]);
+        root->left = helper(arr, lo, mid - 1);
+        root->right = helper(arr, mid + 1, hi);
+        return root;
     }
-    TreeNode* bstToGst(TreeNode* root) {
-        reverseInorder(root);
-        return root; 
+
+    TreeNode* sortedArrayToBST(vector<int>& arr) {
+        int n = arr.size();
+        return helper(arr, 0, n - 1);
     }
 };
+
